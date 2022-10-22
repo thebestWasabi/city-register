@@ -33,10 +33,11 @@ public class PersonCheckDaoTest {
         PersonRequest personRequest = new PersonRequest();
         personRequest.setSurName("Васильева");
         personRequest.setGivenName("Ирина");
-        personRequest.setPatronymic("Петровна");
+        personRequest.setPatronymic("Петрована");
         personRequest.setDateOfBirth(LocalDate.of(1997, 8, 21));
         personRequest.setStreetCode(1);
         personRequest.setBuilding("271");
+        personRequest.setApartment("4");
 
         PersonCheckDao dao = new PersonCheckDao();
         PersonResponse personResponse = dao.checkPerson(personRequest);

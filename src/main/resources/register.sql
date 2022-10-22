@@ -40,7 +40,7 @@ create table city_register_address
 insert into city_register_address (district_code, street_code, building, extension, apartment)
 values (1, 1, '10', '2', '121');
 insert into city_register_address (district_code, street_code, building, extension, apartment)
-values (1, 1, '274', null, null);
+values (1, 1, '271', null, 4);
 
 create table city_register_person
 (

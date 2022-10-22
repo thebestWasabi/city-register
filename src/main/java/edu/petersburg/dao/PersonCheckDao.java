@@ -16,26 +16,24 @@ public class PersonCheckDao {
             "current_date >= ap.start_date_of_registration and (CURRENT_DATE <= ap.end_date_of_registration is null) " +
             "and upper(p.sur_name) = upper(?) and upper(p.given_name) = upper(?) " +
             "and upper(p.patronymic) = upper(?) and p.date_of_birth = ? " +
-            "and a.street_code = ? and upper(a.building) = upper(?) " +
-            "and upper(a.extension) = upper(?) " +
-            "and upper(a.apartment) = upper(?) ";
+            "and a.street_code = ? and upper(a.building) = upper(?) ";
 
     public PersonResponse checkPerson(PersonRequest personRequest) throws PersonCheckException {
         PersonResponse personResponse = new PersonResponse();
-
         String sql = SQL_REQUEST;
-        if (personRequest.getExtension() != null)
+        if (personRequest.getExtension() != null) {
             sql += "and upper(a.extension) = upper(?) ";
-        else
-            sql += "and a.extension is null ";
-
-        if (personRequest.getApartment() != null)
+        } else {
+            sql += "and extension is null ";
+        }
+        if (personRequest.getApartment() != null) {
             sql += "and upper(a.apartment) = upper(?) ";
-        else
-            sql += "and a.apartment is null ";
+        } else {
+            sql += "and apartment is null ";
+        }
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_REQUEST)) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             int count = 1;
             statement.setString(count++, personRequest.getSurName());
             statement.setString(count++, personRequest.getGivenName());
