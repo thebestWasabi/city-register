@@ -18,6 +18,14 @@ public class PersonCheckDao {
             "and upper(p.patronymic) = upper(?) and p.date_of_birth = ? " +
             "and a.street_code = ? and upper(a.building) = upper(?) ";
 
+    public PersonCheckDao() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public PersonResponse checkPerson(PersonRequest personRequest) throws PersonCheckException {
         PersonResponse personResponse = new PersonResponse();
         String sql = SQL_REQUEST;
