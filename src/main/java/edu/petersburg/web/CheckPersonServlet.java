@@ -8,12 +8,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
 @WebServlet(name = "CheckPersonServlet", urlPatterns = {"/checkPerson"})
 public class CheckPersonServlet extends HttpServlet {
+
+    private static final Logger logger = LoggerFactory.getLogger(CheckPersonServlet.class);
+    private PersonCheckDao dao;
+
+    @Override
+    public void init() throws ServletException {
+        logger.info("SERVLET is created");
+        dao = new PersonCheckDao();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +43,6 @@ public class CheckPersonServlet extends HttpServlet {
         personRequest.setApartment("121");
 
         try {
-            PersonCheckDao dao = new PersonCheckDao();
             PersonResponse personResponse = dao.checkPerson(personRequest);
             if (personResponse.isRegistered()) {
                 resp.getWriter().write("Registered");
