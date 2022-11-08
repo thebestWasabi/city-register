@@ -17,12 +17,14 @@ public class PersonCheckDao {
             "and upper(p.patronymic) = upper(?) and p.date_of_birth = ? " +
             "and a.street_code = ? and upper(a.building) = upper(?) ";
 
-    public PersonCheckDao() {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    private ConnectionBuilder connectionBuilder;
+
+    public void setConnectionBuilder(ConnectionBuilder connectionBuilder) {
+        this.connectionBuilder = connectionBuilder;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return connectionBuilder.getConnection();
     }
 
     public PersonResponse checkPerson(PersonRequest personRequest) throws PersonCheckException {
@@ -63,12 +65,6 @@ public class PersonCheckDao {
         } catch (SQLException ex) {
             throw new PersonCheckException(ex);
         }
-
         return personResponse;
-    }
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/city_register",
-                "postgres", "791223");
     }
 }

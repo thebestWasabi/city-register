@@ -1,6 +1,7 @@
 package edu.petersburg.web;
 
 import edu.petersburg.dao.PersonCheckDao;
+import edu.petersburg.dao.PoolConnectionBuilder;
 import edu.petersburg.domain.PersonRequest;
 import edu.petersburg.domain.PersonResponse;
 import jakarta.servlet.ServletException;
@@ -24,6 +25,7 @@ public class CheckPersonServlet extends HttpServlet {
     public void init() throws ServletException {
         logger.info("SERVLET is created");
         dao = new PersonCheckDao();
+        dao.setConnectionBuilder(new PoolConnectionBuilder());
     }
 
     @Override
