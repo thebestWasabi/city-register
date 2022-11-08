@@ -1,6 +1,5 @@
 package edu.petersburg.dao;
 
-import edu.petersburg.config.Config;
 import edu.petersburg.domain.PersonRequest;
 import edu.petersburg.domain.PersonResponse;
 import edu.petersburg.exception.PersonCheckException;
@@ -69,9 +68,7 @@ public class PersonCheckDao {
     }
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                Config.getProperty(Config.DB_URL),
-                Config.getProperty(Config.DB_LOGIN),
-                Config.getProperty(Config.DB_PASSWORD));
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/city_register",
+                "postgres", "791223");
     }
 }
