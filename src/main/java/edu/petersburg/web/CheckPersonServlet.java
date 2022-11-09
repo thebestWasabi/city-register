@@ -1,6 +1,7 @@
 package edu.petersburg.web;
 
 import edu.petersburg.dao.PersonCheckDao;
+import edu.petersburg.dao.PoolConnectionBuilder;
 import edu.petersburg.domain.PersonRequest;
 import edu.petersburg.domain.PersonResponse;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "CheckPersonServlet", urlPatterns = {"/checkPerson"})
 public class CheckPersonServlet extends HttpServlet {
@@ -24,23 +26,23 @@ public class CheckPersonServlet extends HttpServlet {
     public void init() throws ServletException {
         logger.info("SERVLET is created");
         dao = new PersonCheckDao();
+        dao.setConnectionBuilder(new PoolConnectionBuilder());
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
-        String surName = req.getParameter("surName");
-        String givenName = req.getParameter("givenName");
         PersonRequest personRequest = new PersonRequest();
-        personRequest.setSurName(surName);
-        personRequest.setGivenName(givenName);
-        personRequest.setPatronymic("Николаевич");
-        personRequest.setDateOfBirth(LocalDate.of(1995, 3, 18));
-        personRequest.setStreetCode(1);
-        personRequest.setBuilding("10");
-        personRequest.setExtension("2");
-        personRequest.setApartment("121");
+        personRequest.setSurName(req.getParameter("surName"));
+        personRequest.setGivenName(req.getParameter("givenName"));
+        personRequest.setPatronymic(req.getParameter("patronymic"));
+        LocalDate dateOfBirth = LocalDate.parse(req.getParameter("dateOfBirth"), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        personRequest.setDateOfBirth(dateOfBirth);
+        personRequest.setStreetCode(Integer.parseInt(req.getParameter("streetCode")));
+        personRequest.setBuilding(req.getParameter("building"));
+        personRequest.setExtension(req.getParameter("extension"));
+        personRequest.setApartment(req.getParameter("apartment"));
 
         try {
             PersonResponse personResponse = dao.checkPerson(personRequest);
