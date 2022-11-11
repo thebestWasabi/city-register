@@ -1,8 +1,17 @@
 package edu.petersburg.domain;
 
 public class PersonResponse {
+
     private boolean registered;
     private boolean temporal;
+
+    @Override
+    public String toString() {
+        return "PersonResponse{" +
+                "registered=" + registered +
+                ", temporal=" + temporal +
+                '}';
+    }
 
     public boolean isRegistered() {
         return registered;
